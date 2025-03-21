@@ -224,6 +224,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605601b747617d24599fd3dca50bcfc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 126945873}
+  minJumpForce: 5
+  maxJumpForce: 10
+  chargeRate: 10
+  jumpCharge: 0
+  state: 0
 --- !u!212 &126945875
 SpriteRenderer:
   m_ObjectHideFlags: 0
