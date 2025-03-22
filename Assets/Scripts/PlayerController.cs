@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     // Values for horizontal movement
     public const float moveSpeed = 5.0f;
+    public const float bounceForce = 2.0f;
     public int moveDirection = 1; // 1 for right, -1 for left
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,7 +33,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Input class isn't recommended for new projects but this is the simplest way for now
-
         switch (state) {
             case PlayerState.Idle:
                 if (Input.GetKeyDown(KeyCode.Space)) {
@@ -60,10 +60,16 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case PlayerState.Jumping:
+                // Only stop movement if grounded and no side collision - prevents getting stuck in corners
                 if (IsGrounded()) {
-                    // Change state back to idle when the player lands
-                    rb.linearVelocity = new Vector2(0.0f, 0.0f);
-                    state = PlayerState.Idle;
+                    if (!IsTouchingWall()) {
+                        // If we're not touching a wall, stop horizontal movement
+                        rb.linearVelocity = new Vector2(0.0f, 0.0f);
+                        state = PlayerState.Idle;
+                    } else {
+                        // If we're touching a wall, add a small bounce force to prevent getting stuck
+                        rb.AddForce(new Vector2(bounceForce * moveDirection, 0.0f), ForceMode2D.Impulse);
+                    }
                 }
                 break;
         }
@@ -72,10 +78,18 @@ public class PlayerController : MonoBehaviour
     // Check if an object is grounded
     private bool IsGrounded() {
         // Check velocity and if the player is touching the ground
-        return rb.linearVelocity.y == 0 && Physics2D.OverlapBox(
+        return Mathf.Abs(rb.linearVelocity.y) < 0.1f && Physics2D.OverlapBox(
             new Vector2(gameObject.transform.position.x, 
             gameObject.transform.position.y - 0.5f), 
             new Vector2(0.9f, 0.4f), 0f, groundMask);
+    }
+
+    // Check if an object is touching a horizontal wall
+    private bool IsTouchingWall() {
+        return Physics2D.OverlapBox(
+            new Vector2(transform.position.x + moveDirection * 0.5f, transform.position.y),
+            new Vector2(0.1f, 0.9f), 0f, groundMask
+        );
     }
 
     // Wall collision detection
@@ -87,7 +101,11 @@ public class PlayerController : MonoBehaviour
                 if (Mathf.Abs(c.normal.x) > 0.5f) {
                     // Reverse horizontal movement
                     moveDirection *= -1;
-                    rb.linearVelocity = new Vector2(moveSpeed * moveDirection, rb.linearVelocity.y);
+                    // rb.linearVelocity = new Vector2(moveSpeed * moveDirection, rb.linearVelocity.y);
+
+                    // Add a small bounce force to prevent getting stuck in walls
+                    rb.AddForce(new Vector2(bounceForce * c.normal.x, 0.0f), ForceMode2D.Impulse);
+
                     break;
                 }
             }
