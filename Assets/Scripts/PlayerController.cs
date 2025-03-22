@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
     // Values for vertical movement
     public const float minJumpForce = 2.0f;
-    public const float maxJumpForce = 20.0f;
+    public const float maxJumpForce = 12.0f;
     public const float chargeRate = 20.0f;
     public float jumpCharge = 0.0f;
 
@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
         return Mathf.Abs(rb.linearVelocity.y) < 0.1f && Physics2D.OverlapBox(
             new Vector2(gameObject.transform.position.x, 
             gameObject.transform.position.y - 0.5f), 
-            new Vector2(0.9f, 0.4f), 0f, groundMask);
+            new Vector2(1.5f, 0.4f), 0f, groundMask);
     }
 
     // Check if an object is touching a horizontal wall
