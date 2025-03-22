@@ -10,23 +10,30 @@ public enum PlayerState {
 public class PlayerController : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public SpriteRenderer sr;
     public PlayerState state = PlayerState.Idle;
     public LayerMask groundMask;
 
     // Values for vertical movement
-    public const float minJumpForce = 5.0f;
-    public const float maxJumpForce = 10.0f;
-    public const float chargeRate = 10.0f;
+    public const float minJumpForce = 2.0f;
+    public const float maxJumpForce = 20.0f;
+    public const float chargeRate = 20.0f;
     public float jumpCharge = 0.0f;
 
     // Values for horizontal movement
-    public const float moveSpeed = 5.0f;
     public const float bounceForce = 2.0f;
     public int moveDirection = 1; // 1 for right, -1 for left
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (rb == null) {
+            rb = GetComponent<Rigidbody2D>();
+        }
+
+        if (sr == null) {
+            sr = GetComponent<SpriteRenderer>();
+        }
     }
 
     // Update is called once per frame
@@ -52,7 +59,7 @@ public class PlayerController : MonoBehaviour
                     float jumpForce = Mathf.Max(minJumpForce, jumpCharge);
                     
                     // Reset the vertical velocity and apply the jump + horizontal forces
-                    rb.linearVelocity = new Vector2(moveSpeed * moveDirection, 0.0f);
+                    rb.linearVelocity = new Vector2(jumpCharge / 2 * moveDirection, 0.0f);
                     rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
                     state = PlayerState.Jumping;
@@ -101,7 +108,7 @@ public class PlayerController : MonoBehaviour
                 if (Mathf.Abs(c.normal.x) > 0.5f) {
                     // Reverse horizontal movement
                     moveDirection *= -1;
-                    // rb.linearVelocity = new Vector2(moveSpeed * moveDirection, rb.linearVelocity.y);
+                    UpdateSpriteDirection();
 
                     // Add a small bounce force to prevent getting stuck in walls
                     rb.AddForce(new Vector2(bounceForce * c.normal.x, 0.0f), ForceMode2D.Impulse);
@@ -110,5 +117,10 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    // Update the sprite direction
+    private void UpdateSpriteDirection() {
+        sr.flipX = moveDirection == -1;
     }
 }
