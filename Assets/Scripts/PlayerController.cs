@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer sr;
     public PlayerState state = PlayerState.Idle;
     public LayerMask groundMask;
+    public Camera camera;
+
+    // Minimum camera Y position
+    public const float minCameraY = 0f;
 
     // Values for vertical movement
     public const float minJumpForce = 2.0f;
@@ -36,6 +40,10 @@ public class PlayerController : MonoBehaviour
 
         if (sr == null) {
             sr = GetComponent<SpriteRenderer>();
+        }
+
+        if (camera == null) {
+            camera = Camera.main;
         }
     }
 
@@ -83,6 +91,16 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
         }
+
+        UpdateCameraPosition();
+    }
+
+    // Update the camera's y position
+    void UpdateCameraPosition() {
+        // New Y position - player's Y but not lower than minimum
+        float targetY = Mathf.Max(minCameraY, transform.position.y);
+        Debug.Log("Target Y: " + targetY);
+        camera.transform.position = new Vector3(0, targetY, -10);
     }
 
     // Check if an object is grounded
