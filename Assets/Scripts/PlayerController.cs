@@ -1,5 +1,8 @@
+using NUnit.Framework;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public enum PlayerState {
     Idle,
@@ -10,23 +13,38 @@ public enum PlayerState {
 public class PlayerController : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public SpriteRenderer sr;
     public PlayerState state = PlayerState.Idle;
     public LayerMask groundMask;
+    public Camera camera;
+
+    // Minimum camera Y position
+    public const float minCameraY = 0f;
 
     // Values for vertical movement
-    public const float minJumpForce = 5.0f;
-    public const float maxJumpForce = 10.0f;
-    public const float chargeRate = 10.0f;
+    public const float minJumpForce = 2.0f;
+    public const float maxJumpForce = 12.0f;
+    public const float chargeRate = 20.0f;
     public float jumpCharge = 0.0f;
 
     // Values for horizontal movement
-    public const float moveSpeed = 5.0f;
     public const float bounceForce = 2.0f;
     public int moveDirection = 1; // 1 for right, -1 for left
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (rb == null) {
+            rb = GetComponent<Rigidbody2D>();
+        }
+
+        if (sr == null) {
+            sr = GetComponent<SpriteRenderer>();
+        }
+
+        if (camera == null) {
+            camera = Camera.main;
+        }
     }
 
     // Update is called once per frame
@@ -52,7 +70,7 @@ public class PlayerController : MonoBehaviour
                     float jumpForce = Mathf.Max(minJumpForce, jumpCharge);
                     
                     // Reset the vertical velocity and apply the jump + horizontal forces
-                    rb.linearVelocity = new Vector2(moveSpeed * moveDirection, 0.0f);
+                    rb.linearVelocity = new Vector2(jumpCharge / 2 * moveDirection, 0.0f);
                     rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
                     state = PlayerState.Jumping;
@@ -73,6 +91,16 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
         }
+
+        UpdateCameraPosition();
+    }
+
+    // Update the camera's y position
+    void UpdateCameraPosition() {
+        // New Y position - player's Y but not lower than minimum
+        float targetY = Mathf.Max(minCameraY, transform.position.y);
+        Debug.Log("Target Y: " + targetY);
+        camera.transform.position = new Vector3(0, targetY, -10);
     }
 
     // Check if an object is grounded
@@ -81,7 +109,7 @@ public class PlayerController : MonoBehaviour
         return Mathf.Abs(rb.linearVelocity.y) < 0.1f && Physics2D.OverlapBox(
             new Vector2(gameObject.transform.position.x, 
             gameObject.transform.position.y - 0.5f), 
-            new Vector2(0.9f, 0.4f), 0f, groundMask);
+            new Vector2(1.5f, 0.4f), 0f, groundMask);
     }
 
     // Check if an object is touching a horizontal wall
@@ -101,7 +129,7 @@ public class PlayerController : MonoBehaviour
                 if (Mathf.Abs(c.normal.x) > 0.5f) {
                     // Reverse horizontal movement
                     moveDirection *= -1;
-                    // rb.linearVelocity = new Vector2(moveSpeed * moveDirection, rb.linearVelocity.y);
+                    UpdateSpriteDirection();
 
                     // Add a small bounce force to prevent getting stuck in walls
                     rb.AddForce(new Vector2(bounceForce * c.normal.x, 0.0f), ForceMode2D.Impulse);
@@ -109,6 +137,32 @@ public class PlayerController : MonoBehaviour
                     break;
                 }
             }
+        }
+    }
+
+    // Update the sprite direction
+    private void UpdateSpriteDirection() {
+        sr.flipX = moveDirection == -1;
+    }
+
+    // Switch to the next scene
+    private void SwitchNextScene() {
+        // List of scenes
+        string[] scenes = {
+            "Apartment",
+            "Building",
+            "Radio Tower",
+            "Sky",
+            "Space",
+            "Moon"
+        };
+
+        // Get the current scene index
+        int currentSceneIndex = Array.IndexOf(scenes, SceneManager.GetActiveScene().name);
+
+        // Load the next scene
+        if (currentSceneIndex < scenes.Length - 1) {
+            SceneManager.LoadScene(scenes[currentSceneIndex + 1]);
         }
     }
 }
