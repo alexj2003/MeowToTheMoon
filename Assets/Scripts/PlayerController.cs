@@ -10,9 +10,9 @@ public enum PlayerState {
 public class PlayerController : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public float minJumpForce = 5.0f;
-    public float maxJumpForce = 10.0f;
-    public float chargeRate = 10.0f;
+    public float minJumpForce = 2.0f;
+    public float maxJumpForce = 8.0f;
+    public float chargeRate = 8.0f;
     public float jumpCharge = 0.0f;
     public PlayerState state = PlayerState.Idle;
 
