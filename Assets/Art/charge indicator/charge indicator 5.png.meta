@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      charge indicator 5_0: 5433175403960252834
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
