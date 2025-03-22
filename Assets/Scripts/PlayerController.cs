@@ -15,11 +15,13 @@ public class PlayerController : MonoBehaviour
     public float chargeRate = 10.0f;
     public float jumpCharge = 0.0f;
     public PlayerState state = PlayerState.Idle;
+    float distToGround;
+    public LayerMask groundMask;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        distToGround = GetComponent<Collider2D>().bounds.extents.y;
     }
 
     // Update is called once per frame
@@ -54,11 +56,21 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case PlayerState.Jumping:
-                if (Mathf.Abs(rb.linearVelocity.y) < 0.01f) {
+                if (IsGrounded()) {
                     // Change state back to idle when the player lands
                     state = PlayerState.Idle;
                 }
                 break;
         }
+    }
+
+    // Check if an object is grounded
+    private bool IsGrounded() {
+        // Check velocity and if the player is touching the ground
+        if (rb.linearVelocity.y == 0 && Physics2D.OverlapBox(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.5f), new Vector2(0.9f, 0.4f), 0f, groundMask)) {
+            return true;
+        }
+
+        return false;
     }
 }

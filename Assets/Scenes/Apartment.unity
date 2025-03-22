@@ -230,6 +230,9 @@ MonoBehaviour:
   chargeRate: 10
   jumpCharge: 0
   state: 0
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!212 &126945875
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1465,7 +1468,7 @@ GameObject:
   - component: {fileID: 1420949834}
   - component: {fileID: 1420949833}
   - component: {fileID: 1420949832}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Platforms_Tile_Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
