@@ -12,16 +12,15 @@ public class ChargeIndicator : MonoBehaviour
 
     public GameObject PlayerControllerGO;
 
-
-    
-        // Create a new list of strings
-        public List<string> indicatorImages = new List<string>();
-
-
+    public List<string> indicatorImages = new List<string>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (PlayerControllerGO == null) {
+            PlayerControllerGO = GameObject.Find("PlayerPrefab");
+        }
+
         // Add filepaths to the list
         indicatorImages.Add("charge indicator 1.png");
         indicatorImages.Add("charge indicator 2.png");

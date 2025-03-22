@@ -1,5 +1,8 @@
+using NUnit.Framework;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public enum PlayerState {
     Idle,
@@ -122,5 +125,26 @@ public class PlayerController : MonoBehaviour
     // Update the sprite direction
     private void UpdateSpriteDirection() {
         sr.flipX = moveDirection == -1;
+    }
+
+    // Switch to the next scene
+    private void SwitchNextScene() {
+        // List of scenes
+        string[] scenes = {
+            "Apartment",
+            "Building",
+            "Radio Tower",
+            "Sky",
+            "Space",
+            "Moon"
+        };
+
+        // Get the current scene index
+        int currentSceneIndex = Array.IndexOf(scenes, SceneManager.GetActiveScene().name);
+
+        // Load the next scene
+        if (currentSceneIndex < scenes.Length - 1) {
+            SceneManager.LoadScene(scenes[currentSceneIndex + 1]);
+        }
     }
 }
