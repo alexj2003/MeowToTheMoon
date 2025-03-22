@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine; 
 
@@ -40,14 +41,16 @@ public class ChargeIndicator : MonoBehaviour
     {
         ImageNum = 0;
         Image = indicatorImages[0];
+
         // i dont get this GetComponent shit
         jumpCharge = PlayerControllerGO.GetComponent<PlayerController>().jumpCharge;
-        // jumpChargeScript = GetComponent<PlayerController>(); // between 0 and 8
+        
+        // between 0 and 8
         if (jumpCharge != 0){
-        ImageNum = (int)(jumpCharge * 8/ 10);
-        if (jumpCharge == 0){
-            ImageNum = 0;
-        }
+            ImageNum = (int)(Mathf.Abs(jumpCharge) * 8 / PlayerController.maxJumpForce);
+            if (jumpCharge == 0){
+                ImageNum = 0;
+            }
         }
     }
 }
