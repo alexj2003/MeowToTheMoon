@@ -49931,7 +49931,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290791484789108292, guid: a7e3283266a1d1a48910703eface9762, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6016104455136830860, guid: a7e3283266a1d1a48910703eface9762, type: 3}
       propertyPath: m_Pivot.x

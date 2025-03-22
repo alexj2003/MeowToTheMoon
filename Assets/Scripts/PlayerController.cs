@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public const float maxJumpForce = 12.0f;
     public const float chargeRate = 20.0f;
     public float jumpCharge = 0.0f;
+    public float speed = 0.0f;
 
     // Values for horizontal movement
     public const float bounceForce = 2.0f;
@@ -72,6 +73,7 @@ public class PlayerController : MonoBehaviour
                     // Reset the vertical velocity and apply the jump + horizontal forces
                     rb.linearVelocity = new Vector2(jumpCharge / 2 * moveDirection, 0.0f);
                     rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                    speed = Mathf.Sqrt(rb.linearVelocity.x * rb.linearVelocity.x + rb.linearVelocity.y * rb.linearVelocity.y);
 
                     state = PlayerState.Jumping;
                     jumpCharge = 0.0f;
@@ -84,22 +86,31 @@ public class PlayerController : MonoBehaviour
                         // If we're not touching a wall, stop horizontal movement
                         rb.linearVelocity = new Vector2(0.0f, 0.0f);
                         state = PlayerState.Idle;
+
+                        speed = Mathf.Sqrt(rb.linearVelocity.x * rb.linearVelocity.x + rb.linearVelocity.y * rb.linearVelocity.y);
+                        //Debug.Log("Landed");
                     } else {
+                        // this doesnt run
                         // If we're touching a wall, add a small bounce force to prevent getting stuck
-                        rb.AddForce(new Vector2(bounceForce * moveDirection, 0.0f), ForceMode2D.Impulse);
+                        float bounceAmount = bounceForce * moveDirection;
+                        rb.AddForce(new Vector2(bounceAmount, 0.0f), ForceMode2D.Impulse);
+                        
+                        Debug.Log("Bounce in not run section");
+                        
                     }
                 }
                 break;
         }
 
         UpdateCameraPosition();
+        // Debug.Log("state = " + state);
     }
 
     // Update the camera's y position
     void UpdateCameraPosition() {
         // New Y position - player's Y but not lower than minimum
         float targetY = Mathf.Max(minCameraY, transform.position.y);
-        Debug.Log("Target Y: " + targetY);
+        //Debug.Log("Target Y: " + targetY);
         camera.transform.position = new Vector3(0, targetY, -10);
     }
 
@@ -109,7 +120,7 @@ public class PlayerController : MonoBehaviour
         return Mathf.Abs(rb.linearVelocity.y) < 0.1f && Physics2D.OverlapBox(
             new Vector2(gameObject.transform.position.x, 
             gameObject.transform.position.y - 0.5f), 
-            new Vector2(1.5f, 0.4f), 0f, groundMask);
+            new Vector2(1.4f, 0.4f), 0f, groundMask);
     }
 
     // Check if an object is touching a horizontal wall
@@ -126,13 +137,17 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground Collisions")) {
             // Check if collision is horizontal
             foreach (ContactPoint2D c in collision.contacts) {
-                if (Mathf.Abs(c.normal.x) > 0.5f) {
+                if (Mathf.Abs(c.normal.x) > 0.5f) { // c.normal.x = 1 or -1 (or close enough), rest of the time is 0 (or close enough)
                     // Reverse horizontal movement
                     moveDirection *= -1;
+                    //Debug.Log("Wall collision, direction: " + moveDirection);
                     UpdateSpriteDirection();
 
+                    Debug.Log("Speed/10 = " + speed/10);
+
                     // Add a small bounce force to prevent getting stuck in walls
-                    rb.AddForce(new Vector2(bounceForce * c.normal.x, 0.0f), ForceMode2D.Impulse);
+                    // removed  * 
+                    rb.AddForce(new Vector2((speed/10) * c.normal.x * bounceForce, 0.0f), ForceMode2D.Impulse);
 
                     break;
                 }
