@@ -22,8 +22,9 @@ public class PlayerController : MonoBehaviour
     public AudioSource audioClip;
     public int i = 0;
 
-    // Minimum camera Y position
+    // Minimum + maximum camera Y position
     public const float minCameraY = 3.0f;
+    public const float maxCameraY = 100.0f;
 
     // Values for vertical movement
     public const float minJumpForce = 2.0f;
