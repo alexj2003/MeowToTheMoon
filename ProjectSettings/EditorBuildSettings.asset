@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Apartment.unity
     guid: eef2103a6fddfa144ac0cdf342bb99e7
   - enabled: 1
-    path: Assets/Scenes/Building.unity
-    guid: cd44ef33a35202442895b39de6601202
-  - enabled: 1
     path: Assets/Scenes/Closing Scene.unity
     guid: e9079732208e85e47ad3242e6b0c0873
   m_configObjects:

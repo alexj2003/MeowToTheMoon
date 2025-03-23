@@ -1,8 +1,5 @@
-using NUnit.Framework;
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public enum PlayerState {
@@ -22,8 +19,9 @@ public class PlayerController : MonoBehaviour
     public AudioSource audioClip;
     public int i = 0;
 
-    // Minimum camera Y position
+    // Minimum + maximum camera Y position
     public const float minCameraY = 3.0f;
+    public const float maxCameraY = 307.0f;
 
     // Values for vertical movement
     public const float minJumpForce = 2.0f;
@@ -94,29 +92,24 @@ public class PlayerController : MonoBehaviour
                         state = PlayerState.Idle;
 
                         speed = Mathf.Sqrt(rb.linearVelocity.x * rb.linearVelocity.x + rb.linearVelocity.y * rb.linearVelocity.y);
-                        //Debug.Log("Landed");
                     } else {
-                        // this doesnt run
+                        // This doesn't seem to be called
                         // If we're touching a wall, add a small bounce force to prevent getting stuck
                         float bounceAmount = bounceForce * moveDirection;
                         rb.AddForce(new Vector2(bounceAmount, 0.0f), ForceMode2D.Impulse);
-                        
-                        Debug.Log("Bounce in not run section");
-                        
                     }
                 }
                 break;
         }
 
         UpdateCameraPosition();
-        // Debug.Log("state = " + state);
     }
 
     // Update the camera's y position
     void UpdateCameraPosition() {
-        // New Y position - player's Y but not lower than minimum
+        // New Y position - player's Y but not lower than minimum or higher than maximum
         float targetY = Mathf.Max(minCameraY, transform.position.y);
-        //Debug.Log("Target Y: " + targetY);
+        targetY = Mathf.Min(maxCameraY, targetY);
         camera.transform.position = new Vector3(0, targetY, -10);
     }
 
@@ -146,17 +139,13 @@ public class PlayerController : MonoBehaviour
                 if (Mathf.Abs(c.normal.x) > 0.5f) { // c.normal.x = 1 or -1 (or close enough), rest of the time is 0 (or close enough)
                     // Reverse horizontal movement
                     moveDirection *= -1;
-                    //Debug.Log("Wall collision, direction: " + moveDirection);
                     UpdateSpriteDirection();
-
-                    //Debug.Log("Speed/10 = " + speed/10);
 
                     // Add a small bounce force to prevent getting stuck in walls
                     // removed  * 
                     rb.AddForce(new Vector2((speed/10) * c.normal.x * bounceForce, 0.0f), ForceMode2D.Impulse);
 
                     i = Random.Range(0, audioSources.Length);
-                    Debug.Log("audioSources.Length, i = " + audioSources.Length + ", " + i);
                     
                     audioClip = audioSources[i];
                     audioClip.Play();
@@ -170,26 +159,5 @@ public class PlayerController : MonoBehaviour
     // Update the sprite direction
     private void UpdateSpriteDirection() {
         sr.flipX = moveDirection == -1;
-    }
-
-    // Switch to the next scene
-    private void SwitchNextScene() {
-        // List of scenes
-        string[] scenes = {
-            "Apartment",
-            "Building",
-            "Radio Tower",
-            "Sky",
-            "Space",
-            "Moon"
-        };
-
-        // Get the current scene index
-        int currentSceneIndex = Array.IndexOf(scenes, SceneManager.GetActiveScene().name);
-
-        // Load the next scene
-        if (currentSceneIndex < scenes.Length - 1) {
-            SceneManager.LoadScene(scenes[currentSceneIndex + 1]);
-        }
     }
 }

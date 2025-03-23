@@ -41,7 +41,6 @@ public class ChargeIndicator : MonoBehaviour
         ImageNum = 0;
         Image = indicatorImages[0];
 
-        // i dont get this GetComponent shit
         jumpCharge = PlayerControllerGO.GetComponent<PlayerController>().jumpCharge;
         
         // between 0 and 8
