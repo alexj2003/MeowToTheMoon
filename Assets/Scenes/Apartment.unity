@@ -107697,12 +107697,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1125182244749896737, guid: a7e3283266a1d1a48910703eface9762, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1125182244749896737, guid: a7e3283266a1d1a48910703eface9762, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1125182244749896737, guid: a7e3283266a1d1a48910703eface9762, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1125182244749896737, guid: a7e3283266a1d1a48910703eface9762, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1125182244749896737, guid: a7e3283266a1d1a48910703eface9762, type: 3}
       propertyPath: m_SizeDelta.x
@@ -107722,11 +107730,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1125182244749896737, guid: a7e3283266a1d1a48910703eface9762, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -900
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 1125182244749896737, guid: a7e3283266a1d1a48910703eface9762, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -500
+      value: 66
       objectReference: {fileID: 0}
     - target: {fileID: 5290791484789108292, guid: a7e3283266a1d1a48910703eface9762, type: 3}
       propertyPath: m_Camera
@@ -107841,8 +107849,20 @@ PrefabInstance:
       value: CanvasPrefab
       objectReference: {fileID: 0}
     - target: {fileID: 8050412943768615061, guid: a7e3283266a1d1a48910703eface9762, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8050412943768615061, guid: a7e3283266a1d1a48910703eface9762, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8050412943768615061, guid: a7e3283266a1d1a48910703eface9762, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 8050412943768615061, guid: a7e3283266a1d1a48910703eface9762, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
