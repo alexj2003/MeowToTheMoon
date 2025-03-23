@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public enum PlayerState {
     Idle,
@@ -17,6 +18,9 @@ public class PlayerController : MonoBehaviour
     public PlayerState state = PlayerState.Idle;
     public LayerMask groundMask;
     public Camera camera;
+    public AudioSource[] audioSources;
+    public AudioSource audioClip;
+    public int i = 0;
 
     // Minimum camera Y position
     public const float minCameraY = 0f;
@@ -46,6 +50,8 @@ public class PlayerController : MonoBehaviour
         if (camera == null) {
             camera = Camera.main;
         }
+
+        audioSources = GetComponents<AudioSource>();
     }
 
     // Update is called once per frame
@@ -143,11 +149,17 @@ public class PlayerController : MonoBehaviour
                     //Debug.Log("Wall collision, direction: " + moveDirection);
                     UpdateSpriteDirection();
 
-                    Debug.Log("Speed/10 = " + speed/10);
+                    //Debug.Log("Speed/10 = " + speed/10);
 
                     // Add a small bounce force to prevent getting stuck in walls
                     // removed  * 
                     rb.AddForce(new Vector2((speed/10) * c.normal.x * bounceForce, 0.0f), ForceMode2D.Impulse);
+
+                    i = Random.Range(0, audioSources.Length);
+                    Debug.Log("audioSources.Length, i = " + audioSources.Length + ", " + i);
+                    
+                    audioClip = audioSources[i];
+                    audioClip.Play();
 
                     break;
                 }
