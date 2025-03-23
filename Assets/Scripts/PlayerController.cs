@@ -16,8 +16,6 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundMask;
     public Camera camera;
     public AudioSource[] audioSources;
-    public AudioSource audioClip;
-    public int i = 0;
 
     // Minimum + maximum camera Y position
     public const float minCameraY = 3.0f;
@@ -145,10 +143,8 @@ public class PlayerController : MonoBehaviour
                     // removed  * 
                     rb.AddForce(new Vector2((speed/10) * c.normal.x * bounceForce, 0.0f), ForceMode2D.Impulse);
 
-                    i = Random.Range(0, audioSources.Length);
-                    
-                    audioClip = audioSources[i];
-                    audioClip.Play();
+                    int i = Random.Range(0, audioSources.Length);
+                    audioSources[i].Play();
 
                     break;
                 }
