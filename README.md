@@ -1,6 +1,8 @@
 # Meow to the Moon
 
-Meow to the Moon is a rage cat platformer (or Catformer), built for ShefJam 11. The theme was 'only one thing'.
+Available to [download on itch.io](https://1nfinity.itch.io/meow-to-the-moon).
+
+Meow to the Moon is a rage cat platformer (or Catformer) where the only control is space. Built for ShefJam 11 under the theme 'only one thing'. 
 
 You take on the role of Luna the cat, who goes on an epic adventure to find her human, Marvin, in time for breakfast.
 
