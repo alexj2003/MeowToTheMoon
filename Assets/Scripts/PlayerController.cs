@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     public int i = 0;
 
     // Minimum camera Y position
-    public const float minCameraY = 0f;
+    public const float minCameraY = 3.0f;
 
     // Values for vertical movement
     public const float minJumpForce = 2.0f;
