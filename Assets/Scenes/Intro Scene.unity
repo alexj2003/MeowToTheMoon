@@ -358,12 +358,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'One cold winter morning, Luna woke up hungry for her breakfast, only to
-    realise that her human food provider was nowhere to be found.
+  m_text: 'One cold winter morning, Luna the cat woke up hungry for her breakfast,
+    only to realise that her human, Marvin, was nowhere to be found.
 
 
     Thus began
-    her adventure: to find her human and more importantly, her breakfast...'
+    her greatest adventure: to find Marvin and more importantly, her breakfast...'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -762,9 +762,9 @@ RectTransform:
   - {fileID: 770410243}
   m_Father: {fileID: 454068715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.604736, y: -351.98743}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 9.604736, y: 193.01257}
   m_SizeDelta: {x: 500, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1873465962
